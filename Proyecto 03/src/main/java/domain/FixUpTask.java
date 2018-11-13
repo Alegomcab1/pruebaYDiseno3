@@ -8,8 +8,8 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.Valid;
@@ -31,7 +31,7 @@ public class FixUpTask extends DomainEntity {
 	private double					maxPrice;
 	private int						realizationTime;
 
-	private Application				application;
+	private Collection<Application>	applications;
 	private Collection<Category>	categories;
 	private Collection<Phase>		phases;
 	private Collection<Warranty>	warranties;
@@ -98,17 +98,17 @@ public class FixUpTask extends DomainEntity {
 	}
 
 	@NotNull
-	@OneToOne(optional = false)
-	public Application getApplication() {
-		return this.application;
+	@OneToMany(mappedBy = "fixUpTask")
+	public Collection<Application> getApplications() {
+		return this.applications;
 	}
 
-	public void setApplication(final Application application) {
-		this.application = application;
+	public void setApplications(final Collection<Application> applications) {
+		this.applications = applications;
 	}
 
 	@NotNull
-	@OneToMany
+	@ManyToMany
 	public Collection<Category> getCategories() {
 		return this.categories;
 	}
